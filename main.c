@@ -9,25 +9,25 @@ int main()
     setlocale(LC_ALL, "Russian");
 
     size_t count;
-    printf("Введите количество больших чисел: ");
+    printf("Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ Р±РѕР»СЊС€РёС… С‡РёСЃРµР»: ");
     scanf_s("%zu", &count);
 
     BigNumber** bn_arr = (BigNumber**)malloc(count * sizeof(BigNumber*));
     if (bn_arr == NULL)
     {
-        printf("Ошибка выделения памяти для массива BigNumber.\n");
+        printf("РћС€РёР±РєР° РІС‹РґРµР»РµРЅРёСЏ РїР°РјСЏС‚Рё РґР»СЏ РјР°СЃСЃРёРІР° BigNumber.\n");
         return 1;
     }
 
     for (size_t i = 0; i < count; ++i)
     {
-        char number[1001]; // Увеличил размер буфера на 1 для учета завершающего нуля
-        printf("Введите большое число %zu: ", i + 1);
-        scanf_s("%1000s", number, (unsigned)_countof(number)); // Использование ограничения ввода до 1000 символов
+        char number[1001]; // РЈРІРµР»РёС‡РёР» СЂР°Р·РјРµСЂ Р±СѓС„РµСЂР° РЅР° 1 РґР»СЏ СѓС‡РµС‚Р° Р·Р°РІРµСЂС€Р°СЋС‰РµРіРѕ РЅСѓР»СЏ
+        printf("Р’РІРµРґРёС‚Рµ Р±РѕР»СЊС€РѕРµ С‡РёСЃР»Рѕ %zu: ", i + 1);
+        scanf_s("%1000s", number, (unsigned)_countof(number)); // РСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РѕРіСЂР°РЅРёС‡РµРЅРёСЏ РІРІРѕРґР° РґРѕ 1000 СЃРёРјРІРѕР»РѕРІ
         bn_arr[i] = CreateBN(number);
         if (bn_arr[i] == NULL)
         {
-            printf("Ошибка при создании BigNumber из ввода.\n");
+            printf("РћС€РёР±РєР° РїСЂРё СЃРѕР·РґР°РЅРёРё BigNumber РёР· РІРІРѕРґР°.\n");
             for (size_t j = 0; j < i; ++j)
                 DeleteBN(&bn_arr[j]);
             free(bn_arr);
@@ -38,49 +38,49 @@ int main()
     BigNumber* sum_result = SumMultipleBN(bn_arr, count);
     if (sum_result != NULL)
     {
-        printf("Результат сложения: ");
+        printf("Р РµР·СѓР»СЊС‚Р°С‚ СЃР»РѕР¶РµРЅРёСЏ: ");
         PrintBN(sum_result);
         DeleteBN(&sum_result);
     }
     else
     {
-        printf("Ошибка при выполнении сложения.\n");
+        printf("РћС€РёР±РєР° РїСЂРё РІС‹РїРѕР»РЅРµРЅРёРё СЃР»РѕР¶РµРЅРёСЏ.\n");
     }
 
     BigNumber* sub_result = SubMultipleBN(bn_arr, count);
     if (sub_result != NULL)
     {
-        printf("Результат вычитания: ");
+        printf("Р РµР·СѓР»СЊС‚Р°С‚ РІС‹С‡РёС‚Р°РЅРёСЏ: ");
         PrintBN(sub_result);
         DeleteBN(&sub_result);
     }
     else
     {
-        printf("Ошибка при выполнении вычитания.\n");
+        printf("РћС€РёР±РєР° РїСЂРё РІС‹РїРѕР»РЅРµРЅРёРё РІС‹С‡РёС‚Р°РЅРёСЏ.\n");
     }
 
     BigNumber* mult_result = MultMultipleBN(bn_arr, count);
     if (mult_result != NULL)
     {
-        printf("Результат умножения: ");
+        printf("Р РµР·СѓР»СЊС‚Р°С‚ СѓРјРЅРѕР¶РµРЅРёСЏ: ");
         PrintBN(mult_result);
         DeleteBN(&mult_result);
     }
     else
     {
-        printf("Ошибка при выполнении умножения.\n");
+        printf("РћС€РёР±РєР° РїСЂРё РІС‹РїРѕР»РЅРµРЅРёРё СѓРјРЅРѕР¶РµРЅРёСЏ.\n");
     }
 
     BigNumber* div_result = DivMultipleBN(bn_arr, count);
     if (div_result != NULL)
     {
-        printf("Результат деления: ");
+        printf("Р РµР·СѓР»СЊС‚Р°С‚ РґРµР»РµРЅРёСЏ: ");
         PrintBN(div_result);
         DeleteBN(&div_result);
     }
     else
     {
-        printf("Произошло деление на ноль.\n");
+        printf("РџСЂРѕРёР·РѕС€Р»Рѕ РґРµР»РµРЅРёРµ РЅР° РЅРѕР»СЊ.\n");
     }
 
     for (size_t i = 0; i < count; ++i)
