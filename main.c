@@ -8,84 +8,71 @@ int main()
 {
     setlocale(LC_ALL, "Russian");
 
-    size_t count;
-    printf("Введите количество больших чисел: ");
-    scanf_s("%zu", &count);
+    char str1[1000], str2[1000];
 
-    BigNumber** bn_arr = (BigNumber**)malloc(count * sizeof(BigNumber*));
-    if (bn_arr == NULL)
-    {
-        printf("Ошибка выделения памяти для массива BigNumber.\n");
+    printf("Введите первое большое число: ");
+    scanf_s("%999s", str1, (unsigned)_countof(str1));
+
+    printf("Введите второе большое число: ");
+    scanf_s("%999s", str2, (unsigned)_countof(str2));
+
+    BigNumber* bn1 = CreateBN(str1);
+    BigNumber* bn2 = CreateBN(str2);
+
+    if (bn1 == NULL || bn2 == NULL) {
+        printf("Одно из больших чисел равно NULL!\n");
         return 1;
     }
 
-    for (size_t i = 0; i < count; ++i)
-    {
-        char number[1001]; // Увеличил размер буфера на 1 для учета завершающего нуля
-        printf("Введите большое число %zu: ", i + 1);
-        scanf_s("%1000s", number, (unsigned)_countof(number)); // Использование ограничения ввода до 1000 символов
-        bn_arr[i] = CreateBN(number);
-        if (bn_arr[i] == NULL)
-        {
-            printf("Ошибка при создании BigNumber из ввода.\n");
-            for (size_t j = 0; j < i; ++j)
-                DeleteBN(&bn_arr[j]);
-            free(bn_arr);
-            return 1;
+    while (1) {
+        PrintMenu();
+        int choice;
+        scanf_s("%d", &choice);
+
+        BigNumber* result = NULL;
+
+        switch (choice) {
+        case 1:
+            result = SumBN(bn1, bn2);
+            if (result != NULL) {
+                printf("Сумма: ");
+                PrintBN(result);
+                DeleteBN(&result);
+            }
+            break;
+        case 2:
+            result = SubtractBN(bn1, bn2);
+            if (result != NULL) {
+                printf("Разность: ");
+                PrintBN(result);
+                DeleteBN(&result);
+            }
+            break;
+        case 3:
+            result = MultiplyBN(bn1, bn2);
+            if (result != NULL) {
+                printf("Произведение: ");
+                PrintBN(result);
+                DeleteBN(&result);
+            }
+            break;
+        case 4:
+            result = DivideBN(bn1, bn2);
+            if (result != NULL) {
+                printf("Частное: ");
+                PrintBN(result);
+                DeleteBN(&result);
+            }
+            break;
+        case 5:
+            DeleteBN(&bn1);
+            DeleteBN(&bn2);
+            printf("Выход из программы.\n");
+            return 0;
+        default:
+            printf("Неверный выбор. Пожалуйста, попробуйте снова.\n");
         }
     }
-
-    BigNumber* sum_result = SumMultipleBN(bn_arr, count);
-    if (sum_result != NULL)
-    {
-        printf("Результат сложения: ");
-        PrintBN(sum_result);
-        DeleteBN(&sum_result);
-    }
-    else
-    {
-        printf("Ошибка при выполнении сложения.\n");
-    }
-
-    BigNumber* sub_result = SubMultipleBN(bn_arr, count);
-    if (sub_result != NULL)
-    {
-        printf("Результат вычитания: ");
-        PrintBN(sub_result);
-        DeleteBN(&sub_result);
-    }
-    else
-    {
-        printf("Ошибка при выполнении вычитания.\n");
-    }
-
-    BigNumber* mult_result = MultMultipleBN(bn_arr, count);
-    if (mult_result != NULL)
-    {
-        printf("Результат умножения: ");
-        PrintBN(mult_result);
-        DeleteBN(&mult_result);
-    }
-    else
-    {
-        printf("Ошибка при выполнении умножения.\n");
-    }
-
-    BigNumber* div_result = DivMultipleBN(bn_arr, count);
-    if (div_result != NULL)
-    {
-        printf("Результат деления: ");
-        PrintBN(div_result);
-        DeleteBN(&div_result);
-    }
-    else
-    {
-        printf("Произошло деление на ноль.\n");
-    }
-
-    for (size_t i = 0; i < count; ++i)
-        DeleteBN(&bn_arr[i]);
-    free(bn_arr);
 
     return 0;
 }

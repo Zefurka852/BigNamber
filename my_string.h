@@ -3,8 +3,6 @@
 
 #include <stdbool.h>
 
-#include "big_number.h"
-
-bool IsIntBigNumber(const BigNumber* bn_);
+bool IsIntString(char* str_);
 
 #endif // MY_STRING_H

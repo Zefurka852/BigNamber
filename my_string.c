@@ -2,22 +2,20 @@
 #include <stdlib.h>
 
 #include "my_string.h"
-#include "big_number.h"
+#include "my_string.h"
 
-bool IsIntBigNumber(const BigNumber* bn_)
+bool IsIntString(char* str_)
 {
-    // Проверка на пустой указатель
-    if (bn_ == NULL)
-        return false;
+	if (str_[0] == '-')
+		str_++;
 
-    // Проверяем каждую цифру числа
-    for (size_t i = 0; i < bn_->size; ++i)
-    {
-        if (bn_->digits[i] < 0 || bn_->digits[i] > 9)
-        {
-            return false;
-        }
-    }
+	while (*str_)
+	{
+		if (*str_ < '0' || *str_ > '9')
+			return false;
 
-    return true;
+		str_++;
+	}
+
+	return true;
 }
